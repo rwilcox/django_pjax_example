@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+docker-compose run --service-ports dev /bin/bash
+# docker-compose exec dev /bin/bash

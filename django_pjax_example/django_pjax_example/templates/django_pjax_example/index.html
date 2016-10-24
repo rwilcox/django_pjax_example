@@ -1,0 +1,37 @@
+{% extends "django_pjax_example/layout.html" %}
+
+{% block content %}
+
+<div id="form_destination">
+	<div></div>
+</div>
+
+<button type="button" id="toggle_name_form_or_display">Change Name</button>
+
+<script>
+	function replaceFormWithAjaxResponse( responsePartial, textStatus ) {
+		$( '#form_destination > div' ).replaceWith( responsePartial )
+	
+	}
+	/* on click replace the children of our content destination DIV with whatever we get back from server */
+	$( '#toggle_name_form_or_display' ).on( 'click', function() {
+		$.ajax( 'name_form', { dataType: 'html', headers: { Accept: 'message/partial' } } )
+		.done( replaceFormWithAjaxResponse )
+		
+		return false
+	} )
+	
+	/* listen for our name form to be submitted. Intercept it and fire back a server response.
+		Works because Javascript event bubbling
+	 */
+	$( '#form_destination' ).on( 'submit', 'form', function( evt ) {
+		var ourName = $( '#name-form-name' ).val()
+		$.ajax( 'name_form?name=' + ourName, { dataType: 'html', headers: { Accept: 'message/partial' } } )
+		.done( replaceFormWithAjaxResponse )
+		
+		return false
+	} )
+	
+</script>
+
+{% endblock %}

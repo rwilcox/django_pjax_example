@@ -1,0 +1,11 @@
+<div>
+{% if not query_params.name %}
+	<form method="get" action="/">
+		<label for="name">Name</label>
+		<input type="text" name="name" id="name-form-name" />
+		<input type="submit" />
+	</form>
+{% else %}
+	<span>Hi, {{ query_params.name }}</span>
+{% endif %}
+</div>
